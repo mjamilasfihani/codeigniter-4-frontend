@@ -1,0 +1,18 @@
+{
+    "name": "mjamilasfihani/ci4-frontend",
+    "description": "CodeIgniter 4 template engine (BladeOne) and theming (Tatter\\Themes)",
+    "type": "library",
+    "require": {
+        "php": "^7.3||^8.0",
+        "eftec/bladeone": "^3.52",
+        "eftec/bladeonehtml": "^1.8",
+        "tatter/themes": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mjamilasfihani",
+            "email": "mohammadjamilasfihani@gmail.com"
+        }
+    ]
+}
