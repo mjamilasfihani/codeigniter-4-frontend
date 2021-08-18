@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "CI4\\FrontEnd": "src"
+            "CI4\\FrontEnd\\": "src"
         }
     },
     "minimum-stability": "dev",
