@@ -6,35 +6,28 @@ use Config\Services;
 
 class Machine
 {
-	// Display object
+	/**
+	 * Display object
+	 */
 	protected $display;
 
-	// Constructor
+	/**
+	 * Constructor
+	 * 
+	 * @param string $display
+	 */
 	protected function __construct($display = null)
 	{
 		$this->display = $display;
 	}
 
-	// Get BladeOne object
-	//
-	// @var string $path
-	protected function bladeone(string $path)
-	{
-		// return the object
-		return new BladeOne($path, WRITEPATH . 'cache/');
-	}
-
-	// Tatter\Themes
-	protected function tatterassets(string $bundle)
-	{
-		return $bundle;
-	}
-
-	// Begin the journey
-	//
-	// @var string $name
-	// @var array  $data
-	protected function journey(string $name, array $data = [])
+	/**
+	 * Begin the journey :)
+	 * 
+	 * @var string $name
+	 * @var array  $data
+	 */
+	protected function display(string $name, array $data = [])
 	{
 		// set the default one
 		$view = APPPATH . 'Views/' . $name . '.blade.php';
@@ -50,16 +43,20 @@ class Machine
 		$name = basename($name);
 
 		// get the BladeOne object
-		$bladeone = $this->bladeone($path);
+		$bladeone = new BladeOne($path, WRITEPATH . 'cache/');
 
 		// return
 		return new self($bladeone->run($name, $data));
 	}
 
-	// Set the destiny
-	//
-	protected function destiny(string $bundle)
+	/**
+	 * Sadly, time to go home :(
+	 */
+	protected function now()
 	{
-		return $this->tatterassets($this->display);
+		return view('\CI4\FrontEnd\Views\render', [
+			'i' => $this->display,
+			'c' => service('assets'),
+		]);
 	}
 }
