@@ -34,7 +34,10 @@ class Machine
 		$path = dirname(realpath($view)) . DIRECTORY_SEPARATOR;
 		$name = basename($name);
 
+		// get the BladeOne object
+		$bladeone = $this->bladeone($path);
+
 		// return
-		return $this->bladeone($path)->run($name, $data);
+		return $bladeone->run($name, $data);
 	}
 }
