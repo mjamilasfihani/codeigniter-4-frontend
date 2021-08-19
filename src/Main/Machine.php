@@ -6,6 +6,15 @@ use Config\Services;
 
 class Machine
 {
+	// Display object
+	protected $display;
+
+	// Constructor
+	protected function __construct($display = null)
+	{
+		$this->display = $display;
+	}
+
 	// Get BladeOne object
 	//
 	// @var string $path
@@ -13,6 +22,12 @@ class Machine
 	{
 		// return the object
 		return new BladeOne($path, WRITEPATH . 'cache/');
+	}
+
+	// Tatter\Themes
+	protected function tatterassets(string $bundle)
+	{
+		return $bundle;
 	}
 
 	// Begin the journey
@@ -34,7 +49,17 @@ class Machine
 		$path = dirname(realpath($view)) . DIRECTORY_SEPARATOR;
 		$name = basename($name);
 
+		// get the BladeOne object
+		$bladeone = $this->bladeone($path);
+
 		// return
-		return $this->bladeone($path)->run($name, $data);
+		return new self($bladeone->run($name, $data));
+	}
+
+	// Set the destiny
+	//
+	protected function destiny(string $bundle)
+	{
+		return $this->tatterassets($this->display);
 	}
 }
