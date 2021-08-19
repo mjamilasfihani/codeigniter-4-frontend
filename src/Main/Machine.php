@@ -45,6 +45,9 @@ class Machine
 		// get the BladeOne object
 		$bladeone = new BladeOne($path, WRITEPATH . 'cache/');
 
+		// initialize directiveRT()
+		$bladeone = $this->directive($bladeone);
+
 		// return
 		return new self($bladeone->run($name, $data));
 	}
@@ -58,5 +61,27 @@ class Machine
 			'i' => $this->display,
 			'c' => service('assets'),
 		]);
+	}
+
+	//--------------------------------------------------------------------
+	// CI4 Directive Tag
+	//--------------------------------------------------------------------
+	
+	protected function directive($obj)
+	{
+		// @lang()
+		$obj->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
+		{
+			echo lang($line, $args, $locale);
+		});
+
+		// @view
+		$obj->directiveRT('view', function (string $name, array $data = [], array $options = [])
+		{
+			echo view($name, $data, $options);
+		});
+
+		// return
+		return $obj;
 	}
 }
