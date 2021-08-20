@@ -3,7 +3,7 @@
     "description": "CodeIgniter 4 template engine (BladeOne) and theming (Tatter\\Assets)",
     "type": "library",
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^8.0",
         "eftec/bladeone": "^3.52",
         "tatter/assets": "^2.3"
     },
