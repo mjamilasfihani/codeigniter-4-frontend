@@ -2,43 +2,67 @@
 
 namespace CI4\FrontEnd;
 
-use CI4\FrontEnd\Main\Machine;
+/**
+ * MIT License
+ *
+ * Copyright (c) 2021 Mohammad Jamil Asfihani
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-class Engine extends Machine
+use CI4\FrontEnd\GoingTo;
+
+/**
+ * Engine Class
+ * 
+ * This class prototype is
+ * 	- Engine::start($view, [$data])->run();
+ * 
+ * Actually, the engine got trouble. So we need
+ * to fix in the workshop first, extend it.
+ * 
+ * The default views folder is in App/Views/
+ * but you can use namespace too.
+ */
+
+class Engine extends GoingTo\Workshop
 {
 	/**
-	 * Define the view filename
+	 * Code Version
 	 * 
-	 * @var string $name
+	 * @param const VERSION
 	 */
-	protected $name;
-	
-	/**
-	 * Define the view data
-	 * 
-	 * @var array $data
-	 */
-	protected $data = [];
+	const VERSION = '1.0';
 
 	/**
 	 * Constructor
 	 * 
-	 * @var string $name
-	 * @var array  $data
+	 * @param string $name
+	 * @param array  $data
 	 */
-	protected function __construct(string $name, array $data = [])
-	{
-		$this->name = $name;
-		$this->data = $data;
-	}
-
-	//--------------------------------------------------------------------
+	protected function __construct(protected string $name, protected array $data = []) { }
 
 	/**
-	 * >> Start the Engine!!!
+	 * >> Start the healthy check!!!
 	 * 
-	 * @var string $name
-	 * @var array  $data
+	 * @param string $name
+	 * @param array  $data
 	 */
 	public static function start(string $name, array $data = [])
 	{
@@ -46,17 +70,15 @@ class Engine extends Machine
 	}
 
 	/**
-	 * << Begin the Journey
+	 * << Not runing as well :/
 	 * 
-	 * The prototype will be :
-	 *
-	 * 		Engine::start($view, [$data])->run();
-	 * 
+	 * @param  string $mode
+	 * @param  bool   $pipe
 	 * @return view
 	 */
-	public function run()
+	public function run(string $mode = 'auto', bool $pipe = false)
 	{
-		return $this->display($this->name, $this->data)
-					->now();
+		return $this->trouble($this->name, $this->data, $mode, $pipe) // we've found the trouble
+					->fix(/* we know what's the trouble :) */);       // time to fix it
 	}
 }

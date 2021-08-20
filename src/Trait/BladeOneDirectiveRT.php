@@ -26,29 +26,24 @@ namespace CI4\FrontEnd\Trait;
  * SOFTWARE.
  */
 
-trait BladeOneTrait
+class BladeOneDirectiveRT
 {
-	// @csrf_token()
-	protected function compileCsrf_token()
+	//
+	public static function directive($obj)
 	{
-		return "<?php echo csrf_token() ?>";
-	}
+		// @lang()
+		$obj->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
+		{
+			echo lang($line, $args, $locale);
+		});
 
-	// @csrf_header()
-	protected function compileCsrf_header()
-	{
-		return "<?php echo csrf_header() ?>";
-	}
+		// @view
+		$obj->directiveRT('view', function (string $name, array $data = [], array $options = [])
+		{
+			echo view($name, $data, $options);
+		});
 
-	// @csrf_field()
-	protected function compileCsrf_field()
-	{
-		return "<?php echo csrf_field() ?>";
-	}
-
-	// @csrf_meta()
-	protected function compileCsrf_meta()
-	{
-		return "<?php echo csrf_meta() ?>";
+		// return
+		return $obj;
 	}
 }
