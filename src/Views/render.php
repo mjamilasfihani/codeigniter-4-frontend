@@ -1,1 +1,1 @@
-<!DOCTYPE html><html><head><!-- meta @here --></head><body><?php echo $render ?></body></html>
+<!DOCTYPE html><html><head><?php echo $meta ?? '' ?></head><body><?php echo $render ?></body></html>
