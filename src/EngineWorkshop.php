@@ -94,8 +94,10 @@ class EngineWorkshop
 
 	/**
 	 * Yey, it fixed now :)
+	 * 
+	 * @param string $get_meta_data
 	 */
-	protected function fix()
+	protected function fix($get_meta_data)
 	{
 		// set the data
 		$name = $this->value['name'];
@@ -112,6 +114,6 @@ class EngineWorkshop
 		}
 
 		// render to view
-		return view('\CI4\FrontEnd\Views\render', ['render' => $bladeone]);
+		return view('\CI4\FrontEnd\Views\render', ['render' => $bladeone, 'meta' => $get_meta_data]);
 	}
 }

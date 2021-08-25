@@ -59,7 +59,7 @@ class Engine extends EngineWorkshop
 	 * @param string $name
 	 * @param array  $data
 	 */
-	protected function __construct(protected string $name, protected array $data = []) { }
+	protected function __construct(protected string $name, protected array $data = [], protected $meta = null) { }
 
 	/**
 	 * >> Start the healthy check!!!
@@ -73,6 +73,21 @@ class Engine extends EngineWorkshop
 	}
 
 	/**
+	 * == Meta generator
+	 * 
+	 * Add your own meta tag by using this
+	 * method.
+	 * 
+	 * Usage : start()->meta($meta)->run();
+	 * 
+	 * @param $set_meta_data
+	 */
+	public function meta($set_meta_data)
+	{
+		return new self($this->name, $this->data, $set_meta_data);
+	}
+
+	/**
 	 * << Not runing as well :/
 	 * 
 	 * @param  string $mode
@@ -82,6 +97,6 @@ class Engine extends EngineWorkshop
 	public function run(string $mode = 'auto', bool $pipe = false)
 	{
 		return $this->trouble($this->name, $this->data, $mode, $pipe) // we've found the trouble
-					->fix(/* we know what's the trouble :) */);       // time to fix it
+					->fix($this->meta);                               // add an extra chips to fix it.
 	}
 }
