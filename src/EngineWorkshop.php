@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\GoingTo;
+namespace CI4\FrontEnd;
 
 /**
  * MIT License
@@ -30,52 +30,30 @@ use CI4\FrontEnd\Library\BladeOne;
 use CI4\FrontEnd\Library\FindPath;
 use CI4\FrontEnd\Trait\BladeOneDirectiveRT;
 
-class Workshop
+class EngineWorkshop
 {
 	/**
 	 * Constructor
 	 * 
-	 * @param string $object
-	 * @param array  $param
+	 * @param string $bladeone
+	 * @param array  $value
 	 */
-	protected function __construct(protected $object = null, protected array $param = []) { }
-
-	/**
-	 * Set the BladeOne object
-	 * 
-	 * @param string $path
-	 */
-	protected function getBladeOne(string $path)
-	{
-		return new BladeOne($path, WRITEPATH . 'cache/');
-	}
-
-	/**
-	 * Set the BladeOne DirectiveRT
-	 * 
-	 * @param object $bladeone
-	 */
-	protected function getDirectiveRT($bladeone)
-	{
-		return BladeOneDirectiveRT::directive($bladeone);
-	}
+	protected function __construct(protected $bladeone = null, protected array $value = []) { }
 
 	/**
 	 * Initialize
 	 * 
-	 * @param string $name
+	 * @param string $path
 	 * @param string $mode
 	 * @param bool   $pipe
 	 */
-	protected function initialize(string $name, string $mode = 'auto', bool $pipe = false)
+	protected function initialize(string $path, string $mode = 'auto', bool $pipe = false)
 	{
 		// initialize BladeOne
-		// if FindPath::try(string) return null, than user try to use
-		// string not the view file right?
-		$bladeone = $this->getBladeOne(FindPath::try($name) ?? '');
+		$bladeone = new BladeOne($path, WRITEPATH . 'cache/');
 
 		// initialize directiveRT()
-		$bladeone = $this->getDirectiveRT($bladeone);
+		$bladeone = BladeOneDirectiveRT::getTag($bladeone);
 
 		// bladeone mode
 		$bladeone->setMode(match ($mode)
@@ -106,7 +84,12 @@ class Workshop
 	 */
 	protected function trouble(string $name, array $data = [], string $mode = 'auto', bool $pipe = false)
 	{
-		return new self($this->initialize($name, $mode, $pipe), ['name' => $name, 'data' => $data]);
+		// if FindPath::try(string) return '', than user try to use
+		// string not the view file right?
+		return new self($this->initialize(FindPath::try($name, ''), $mode, $pipe), [
+			'name' => $name,
+			'data' => $data,
+		]);
 	}
 
 	/**
@@ -114,13 +97,21 @@ class Workshop
 	 */
 	protected function fix()
 	{
-		$o = $this->object;
-		$name = $this->param['name'];
-		$data = $this->param['data'];
+		// set the data
+		$name = $this->value['name'];
+		$data = $this->value['data'];
 
-		return view('\CI4\FrontEnd\Views\render', [
-			'i' => is_null(FindPath::try($name)) ? $o->runString($name, $data) : $o->run($name, $data),
-			'c' => service('assets'),
-		]);
+		// decide the render type
+		if (FindPath::try($name) == null)
+		{
+			$bladeone = $this->bladeone->runString($name, $data);
+		}
+		else
+		{
+			$bladeone = $this->bladeone->run($name, $data);
+		}
+
+		// render to view
+		return view('\CI4\FrontEnd\Views\render', ['render' => $bladeone]);
 	}
 }

@@ -51,9 +51,10 @@ class FindPath
 	 * try
 	 * 
 	 * @param string $value
+	 * @param mix    $returnType null|bool|string
 	 */
-	public static function try(string $value)
+	public static function try(string $value, $returnType = null)
 	{
-		return self::default($value) ?? self::namespace($value) ?? null;
+		return self::default($value) ?? self::namespace($value) ?? $returnType;
 	}
 }

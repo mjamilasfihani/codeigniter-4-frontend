@@ -28,22 +28,25 @@ namespace CI4\FrontEnd\Trait;
 
 class BladeOneDirectiveRT
 {
-	//
-	public static function directive($obj)
+	/**
+     * @param  $bladeone
+     * @return directive tag
+     */
+	public static function getTag($bladeone)
 	{
 		// @lang()
-		$obj->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
+		$bladeone->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
 		{
 			echo lang($line, $args, $locale);
 		});
 
 		// @view
-		$obj->directiveRT('view', function (string $name, array $data = [], array $options = [])
+		$bladeone->directiveRT('view', function (string $name, array $data = [], array $options = [])
 		{
 			echo view($name, $data, $options);
 		});
 
 		// return
-		return $obj;
+		return $bladeone;
 	}
 }
