@@ -1,10 +1,1 @@
-<!DOCTYPE html>
-<head>
-<?= $c->css() ?>
-</head>
-<body>
-<?= $i ?>
-
-<?= $c->js() ?>
-</body>
-</html>
+<!DOCTYPE html><html><head><!-- meta @here --></head><body><?php echo $render ?></body></html>

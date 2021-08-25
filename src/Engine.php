@@ -26,22 +26,25 @@ namespace CI4\FrontEnd;
  * SOFTWARE.
  */
 
-use CI4\FrontEnd\GoingTo;
+use CI4\FrontEnd\EngineWorkshop;
 
 /**
  * Engine Class
  * 
  * This class prototype is
- * 	- Engine::start($view, [$data])->run();
+ * 	- Engine::start($view, [$data])->run($mode, $pipe);
+ * 
+ * $mode = 'auto'|'slow'|'fast'|'debug' (default 'auto')
+ * $pipe = true|false (default false)
  * 
  * Actually, the engine got trouble. So we need
  * to fix in the workshop first, extend it.
  * 
  * The default views folder is in App/Views/
- * but you can use namespace too.
+ * but you can use namespace too or even a string!!
  */
 
-class Engine extends GoingTo\Workshop
+class Engine extends EngineWorkshop
 {
 	/**
 	 * Code Version
