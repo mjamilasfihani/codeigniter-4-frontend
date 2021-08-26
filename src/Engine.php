@@ -32,10 +32,10 @@ use CI4\FrontEnd\EngineWorkshop;
  * Engine Class
  * 
  * This class prototype is
- * 	- Engine::start($view, [$data])->run($mode, $pipe);
+ * 	- Engine::initialize($view, [$data])->run($pipe, $mode);
  * 
- * $mode = 'auto'|'slow'|'fast'|'debug' (default 'auto')
  * $pipe = true|false (default false)
+ * $mode = 'auto'|'slow'|'fast'|'debug' (default 'auto')
  * 
  * Actually, the engine got trouble. So we need
  * to fix in the workshop first, extend it.
@@ -54,12 +54,29 @@ class Engine extends EngineWorkshop
 	const VERSION = '1.0';
 
 	/**
+	 * Object Initialize
+	 * 
+	 * @param string $name
+	 * @param array  $data
+	 * @param string $meta
+	 */
+	protected $name = null;
+	protected $data = [];
+	protected $meta = null;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param string $name
 	 * @param array  $data
+	 * @param string $meta
 	 */
-	protected function __construct(protected string $name, protected array $data = [], protected $meta = null) { }
+	protected function __construct(string $name = null, array $data = [], $meta = null)
+	{
+		$this->name = $name ?? $this->name;
+		$this->data = $data ?? $this->data;
+		$this->meta = $meta ?? $this->meta;
+	}
 
 	/**
 	 * >> Start the healthy check!!!
@@ -67,7 +84,7 @@ class Engine extends EngineWorkshop
 	 * @param string $name
 	 * @param array  $data
 	 */
-	public static function start(string $name, array $data = [])
+	public static function initialize(string $name, array $data = [])
 	{
 		return new self($name, $data);
 	}
@@ -78,7 +95,7 @@ class Engine extends EngineWorkshop
 	 * Add your own meta tag by using this
 	 * method.
 	 * 
-	 * Usage : start()->meta($meta)->run();
+	 * Usage : initialize()->meta($meta)->run();
 	 * 
 	 * @param $set_meta_data
 	 */
@@ -90,13 +107,13 @@ class Engine extends EngineWorkshop
 	/**
 	 * << Not runing as well :/
 	 * 
-	 * @param  string $mode
 	 * @param  bool   $pipe
+	 * @param  string $mode
 	 * @return view
 	 */
-	public function run(string $mode = 'auto', bool $pipe = false)
+	public function run(bool $pipe = false, string $mode = 'auto')
 	{
-		return $this->trouble($this->name, $this->data, $mode, $pipe) // we've found the trouble
+		return $this->trouble($this->name, $this->data, $pipe, $mode) // we've found the trouble
 					->fix($this->meta);                               // add an extra chips to fix it.
 	}
 }
