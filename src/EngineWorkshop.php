@@ -33,21 +33,34 @@ use CI4\FrontEnd\Trait\BladeOneDirectiveRT;
 class EngineWorkshop
 {
 	/**
-	 * Constructor
+	 * Object Initialize
 	 * 
-	 * @param string $bladeone
+	 * @param object $bladeone
 	 * @param array  $value
 	 */
-	protected function __construct(protected $bladeone = null, protected array $value = []) { }
+	protected $bladeone = null;
+	protected $value    = [];
 
 	/**
-	 * Initialize
+	 * Constructor
+	 * 
+	 * @param object $bladeone
+	 * @param array  $value
+	 */
+	protected function __construct($bladeone = null, array $value = [])
+	{
+		$this->bladeone = $bladeone ?? $this->bladeone;
+		$this->value    = $value    ?? $this->value;
+	}
+
+	/**
+	 * Core
 	 * 
 	 * @param string $path
-	 * @param string $mode
 	 * @param bool   $pipe
+	 * @param string $mode
 	 */
-	protected function initialize(string $path, string $mode = 'auto', bool $pipe = false)
+	protected function core(string $path, bool $pipe = false, string $mode = 'auto')
 	{
 		// initialize BladeOne
 		$bladeone = new BladeOne($path, WRITEPATH . 'cache/');
@@ -56,13 +69,24 @@ class EngineWorkshop
 		$bladeone = BladeOneDirectiveRT::getTag($bladeone);
 
 		// bladeone mode
-		$bladeone->setMode(match ($mode)
+		switch ($mode)
 		{
-			'auto'  => $bladeone::MODE_AUTO,
-			'slow'  => $bladeone::MODE_SLOW,
-			'fast'  => $bladeone::MODE_FAST,
-			'debug' => $bladeone::MODE_DEBUG,
-		});
+			case 'auto':
+				$bladeone->setMode($bladeone::MODE_AUTO);
+				break;
+			case 'slow':
+				$bladeone->setMode($bladeone::MODE_SLOW);
+				break;
+			case 'fast':
+				$bladeone->setMode($bladeone::MODE_FAST);
+				break;
+			case 'debug':
+				$bladeone->setMode($bladeone::MODE_DEBUG);
+				break;
+			default:
+				log_message('error', 'CI4\FrontEnd - mode:\'{0}\' is invalid value.', [0 => $mode]);
+				break;
+		};
 
 		// check the pipe (filter)
 		$bladeone->pipeEnable = $pipe;
@@ -79,14 +103,14 @@ class EngineWorkshop
 	 * 
 	 * @param string $name
 	 * @param array  $data
-	 * @param string $mode
 	 * @param bool   $pipe
+	 * @param string $mode
 	 */
-	protected function trouble(string $name, array $data = [], string $mode = 'auto', bool $pipe = false)
+	protected function trouble(string $name, array $data = [], bool $pipe = false, string $mode = 'auto')
 	{
 		// if FindPath::try(string) return '', than user try to use
 		// string not the view file right?
-		return new self($this->initialize(FindPath::try($name, ''), $mode, $pipe), [
+		return new self($this->core(FindPath::try($name, ''), $pipe, $mode), [
 			'name' => $name,
 			'data' => $data,
 		]);
@@ -95,7 +119,7 @@ class EngineWorkshop
 	/**
 	 * Yey, it fixed now :)
 	 * 
-	 * @param string $get_meta_data
+	 * @param $get_meta_data
 	 */
 	protected function fix($get_meta_data)
 	{
