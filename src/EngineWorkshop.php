@@ -137,7 +137,18 @@ class EngineWorkshop
 			$bladeone = $this->bladeone->run($name, $data);
 		}
 
+		// decide the render file
+		// create your own layout based on the origin.
+		if (is_file(APPPATH . 'Views/layout/render.php'))
+		{
+			$layout = 'layout/render';
+		}
+		else
+		{
+			$layout = '\CI4\FrontEnd\Views\layout\render';
+		}
+
 		// render to view
-		return view('\CI4\FrontEnd\Views\render', ['render' => $bladeone, 'meta' => $get_meta_data]);
+		return view($layout, ['render' => $bladeone, 'meta' => $get_meta_data]);
 	}
 }
