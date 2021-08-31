@@ -134,7 +134,7 @@ class EngineWorkshop
 		}
 		else
 		{
-			$bladeone = $this->bladeone->run($name, $data);
+			$bladeone = $this->bladeone->run(basename($name), $data);
 		}
 
 		// decide the render file
