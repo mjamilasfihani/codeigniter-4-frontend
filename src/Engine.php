@@ -26,7 +26,7 @@ namespace CI4\FrontEnd;
  * SOFTWARE.
  */
 
-use CI4\FrontEnd\EngineWorkshop;
+use CI4\FrontEnd\Core\EngineWorkshop;
 
 /**
  * Engine Class
@@ -51,7 +51,7 @@ class Engine extends EngineWorkshop
 	 * 
 	 * @param const VERSION
 	 */
-	const VERSION = '1.2';
+	const VERSION = '1.3';
 
 	/**
 	 * Object Initialize
