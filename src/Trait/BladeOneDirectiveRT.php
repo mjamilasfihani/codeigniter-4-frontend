@@ -40,7 +40,7 @@ class BladeOneDirectiveRT
 			echo lang($line, $args, $locale);
 		});
 
-		// @view
+		// @view()
 		$bladeone->directiveRT('view', function (string $name, array $data = [], array $options = [])
 		{
 			echo view($name, $data, $options);

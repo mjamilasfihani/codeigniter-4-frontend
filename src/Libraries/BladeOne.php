@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\Library;
+namespace CI4\FrontEnd\Libraries;
 
 /**
  * MIT License

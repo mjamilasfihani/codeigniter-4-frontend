@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd;
+namespace CI4\FrontEnd\Core;
 
 /**
  * MIT License
@@ -26,8 +26,8 @@ namespace CI4\FrontEnd;
  * SOFTWARE.
  */
 
-use CI4\FrontEnd\Library\BladeOne;
-use CI4\FrontEnd\Library\FindPath;
+use CI4\FrontEnd\Libraries\BladeOne;
+use CI4\FrontEnd\Libraries\FindPath;
 use CI4\FrontEnd\Trait\BladeOneDirectiveRT;
 
 class EngineWorkshop
@@ -134,7 +134,7 @@ class EngineWorkshop
 		}
 		else
 		{
-			$bladeone = $this->bladeone->run(basename($name), $data);
+			$bladeone = $this->bladeone->run(class_basename($name), $data);
 		}
 
 		// decide the render file
