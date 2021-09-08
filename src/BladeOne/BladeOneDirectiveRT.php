@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\Trait;
+namespace CI4\FrontEnd\BladeOne;
 
 /**
  * MIT License
@@ -26,29 +26,27 @@ namespace CI4\FrontEnd\Trait;
  * SOFTWARE.
  */
 
-trait BladeOneTrait
+class BladeOneDirectiveRT
 {
-	// @csrf_token()
-	protected function compileCsrf_token()
+	/**
+     * @param  $bladeone
+     * @return directive tag
+     */
+	public static function getTag($bladeone)
 	{
-		return "<?php echo csrf_token() ?>";
-	}
+		// @lang()
+		$bladeone->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
+		{
+			echo lang($line, $args, $locale);
+		});
 
-	// @csrf_header()
-	protected function compileCsrf_header()
-	{
-		return "<?php echo csrf_header() ?>";
-	}
+		// @view()
+		$bladeone->directiveRT('view', function (string $name, array $data = [], array $options = [])
+		{
+			echo view($name, $data, $options);
+		});
 
-	// @csrf_field()
-	protected function compileCsrf_field()
-	{
-		return "<?php echo csrf_field() ?>";
-	}
-
-	// @csrf_meta()
-	protected function compileCsrf_meta()
-	{
-		return "<?php echo csrf_meta() ?>";
+		// return
+		return $bladeone;
 	}
 }

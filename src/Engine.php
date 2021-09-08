@@ -26,7 +26,7 @@ namespace CI4\FrontEnd;
  * SOFTWARE.
  */
 
-use CI4\FrontEnd\Core\EngineWorkshop;
+use CI4\FrontEnd\EngineWorkshop;
 
 /**
  * Engine Class
