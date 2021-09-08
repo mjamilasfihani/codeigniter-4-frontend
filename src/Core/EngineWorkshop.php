@@ -28,7 +28,7 @@ namespace CI4\FrontEnd\Core;
 
 use CI4\FrontEnd\Libraries\BladeOne;
 use CI4\FrontEnd\Libraries\FindPath;
-use CI4\FrontEnd\Trait\BladeOneDirectiveRT;
+use BladeOneDirectiveRT;
 
 class EngineWorkshop
 {

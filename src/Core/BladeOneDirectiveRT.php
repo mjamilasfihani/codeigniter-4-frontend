@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\Trait;
+namespace CI4\FrontEnd\Core;
 
 /**
  * MIT License
