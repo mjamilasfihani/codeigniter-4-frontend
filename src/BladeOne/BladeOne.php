@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\Core;
+namespace CI4\FrontEnd\BladeOne;
 
 /**
  * MIT License
@@ -26,27 +26,11 @@ namespace CI4\FrontEnd\Core;
  * SOFTWARE.
  */
 
-class BladeOneDirectiveRT
+use eftec\bladeone\BladeOne as BladeOneCore;
+use CI4\FrontEnd\BladeOne\BladeOneTrait;
+
+class BladeOne extends BladeOneCore
 {
-	/**
-     * @param  $bladeone
-     * @return directive tag
-     */
-	public static function getTag($bladeone)
-	{
-		// @lang()
-		$bladeone->directiveRT('lang', function (string $line, array $args = [], string $locale = null)
-		{
-			echo lang($line, $args, $locale);
-		});
-
-		// @view()
-		$bladeone->directiveRT('view', function (string $name, array $data = [], array $options = [])
-		{
-			echo view($name, $data, $options);
-		});
-
-		// return
-		return $bladeone;
-	}
+	// use trait, keep the origin version
+	use BladeOneTrait;
 }

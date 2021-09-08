@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-namespace CI4\FrontEnd\Libraries;
+namespace CI4\FrontEnd\BladeOne;
 
 /**
  * MIT License
@@ -26,59 +26,29 @@ namespace CI4\FrontEnd\Libraries;
  * SOFTWARE.
  */
 
-use Config\Services;
-
-class FindPath
+trait BladeOneTrait
 {
-	/**
-	 * Check if it's a file, and return the
-	 * folder name
-	 * 
-	 * @param  string $source
-	 * @return string|null
-	 */
-	protected static function getRealPath(string $source)
+	// @csrf_token()
+	protected function compileCsrf_token()
 	{
-		$realfile = realpath($source);
-
-		if (is_file($realfile))
-		{
-			return dirname($realfile) . DIRECTORY_SEPARATOR;
-		}
-		else
-		{
-			return null;
-		}
+		return "<?php echo csrf_token() ?>";
 	}
 
-	/**
-	 * Default Path
-	 * 
-	 * @param string $filename
-	 */
-	protected static function default(string $filename)
+	// @csrf_header()
+	protected function compileCsrf_header()
 	{
-		return self::getRealPath(APPPATH . 'Views/' . $filename . '.blade.php');
+		return "<?php echo csrf_header() ?>";
 	}
 
-	/**
-	 * Namespace
-	 * 
-	 * @param string namespace
-	 */
-	protected static function namespace(string $namespace)
+	// @csrf_field()
+	protected function compileCsrf_field()
 	{
-		return self::getRealPath(Services::locator()->locateFile($namespace, 'Views', 'blade.php'));
+		return "<?php echo csrf_field() ?>";
 	}
 
-	/**
-	 * try
-	 * 
-	 * @param string $value
-	 * @param mix    $returnType null|bool|string
-	 */
-	public static function try(string $value, $returnType = null)
+	// @csrf_meta()
+	protected function compileCsrf_meta()
 	{
-		return self::default($value) ?? self::namespace($value) ?? $returnType;
+		return "<?php echo csrf_meta() ?>";
 	}
 }

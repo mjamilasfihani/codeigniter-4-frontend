@@ -1,6 +1,6 @@
 <?php
 
-namespace CI4\FrontEnd\Core;
+namespace CI4\FrontEnd;
 
 /**
  * MIT License
@@ -26,31 +26,31 @@ namespace CI4\FrontEnd\Core;
  * SOFTWARE.
  */
 
-use CI4\FrontEnd\Libraries\BladeOne;
-use CI4\FrontEnd\Libraries\FindPath;
-use BladeOneDirectiveRT;
+use CI4\FrontEnd\BladeOne\BladeOne;
+use CI4\FrontEnd\BladeOne\BladeOneDirectiveRT;
+use CI4\FrontEnd\Libraries\ViewLocator;
 
 class EngineWorkshop
 {
 	/**
 	 * Object Initialize
 	 * 
-	 * @param object $bladeone
+	 * @param object $engine
 	 * @param array  $value
 	 */
-	protected $bladeone = null;
-	protected $value    = [];
+	protected $engine = null;
+	protected $value  = [];
 
 	/**
 	 * Constructor
 	 * 
-	 * @param object $bladeone
+	 * @param object $engine
 	 * @param array  $value
 	 */
-	protected function __construct($bladeone = null, array $value = [])
+	protected function __construct($engine = null, array $value = [])
 	{
-		$this->bladeone = $bladeone ?? $this->bladeone;
-		$this->value    = $value    ?? $this->value;
+		$this->engine = $engine ?? $this->engine;
+		$this->value  = $value  ?? $this->value;
 	}
 
 	/**
@@ -63,39 +63,39 @@ class EngineWorkshop
 	protected function core(string $path, bool $pipe = false, string $mode = 'auto')
 	{
 		// initialize BladeOne
-		$bladeone = new BladeOne($path, WRITEPATH . 'cache/');
+		$engine = new BladeOne($path, WRITEPATH . 'cache/');
 
-		// initialize directiveRT()
-		$bladeone = BladeOneDirectiveRT::getTag($bladeone);
+		// initialize BladeOne directiveRT()
+		$engine = BladeOneDirectiveRT::getTag($engine);
 
-		// bladeone mode
+		// BladeOne mode
 		switch ($mode)
 		{
 			case 'auto':
-				$bladeone->setMode($bladeone::MODE_AUTO);
+				$engine->setMode($engine::MODE_AUTO);
 				break;
 			case 'slow':
-				$bladeone->setMode($bladeone::MODE_SLOW);
+				$engine->setMode($engine::MODE_SLOW);
 				break;
 			case 'fast':
-				$bladeone->setMode($bladeone::MODE_FAST);
+				$engine->setMode($engine::MODE_FAST);
 				break;
 			case 'debug':
-				$bladeone->setMode($bladeone::MODE_DEBUG);
+				$engine->setMode($engine::MODE_DEBUG);
 				break;
 			default:
 				log_message('error', 'CI4\FrontEnd - mode:\'{0}\' is invalid value.', [0 => $mode]);
 				break;
 		};
 
-		// check the pipe (filter)
-		$bladeone->pipeEnable = $pipe;
+		// check the BladeOne pipe (filter)
+		$engine->pipeEnable = $pipe;
 
-		// set the bladeone base url
-		$bladeone->setBaseUrl(base_url());
+		// set the BladeOne base url
+		$engine->setBaseUrl(base_url());
 
-		// return the bladeone object
-		return $bladeone;
+		// return the BladeOne object
+		return $engine;
 	}
 
 	/**
@@ -108,16 +108,16 @@ class EngineWorkshop
 	 */
 	protected function trouble(string $name, array $data = [], bool $pipe = false, string $mode = 'auto')
 	{
-		// if FindPath::try(string) return '', than user try to use
+		// if ViewLocator::try(string) return '', than user try to use
 		// string not the view file right?
-		return new self($this->core(FindPath::try($name, ''), $pipe, $mode), [
+		return new self($this->core(ViewLocator::try($name, '', '.blade.php'), $pipe, $mode), [
 			'name' => $name,
 			'data' => $data,
 		]);
 	}
 
 	/**
-	 * Yey, it fixed now :)
+	 * Yeay, it fixed now :)
 	 * 
 	 * @param $get_meta_data
 	 */
@@ -128,13 +128,13 @@ class EngineWorkshop
 		$data = $this->value['data'];
 
 		// decide the render type
-		if (FindPath::try($name) == null)
+		if (ViewLocator::try($name, null, '.blade.php') == null)
 		{
-			$bladeone = $this->bladeone->runString($name, $data);
+			$engine = $this->engine->runString($name, $data);
 		}
 		else
 		{
-			$bladeone = $this->bladeone->run(class_basename($name), $data);
+			$engine = $this->engine->run(class_basename($name), $data);
 		}
 
 		// decide the render file
@@ -149,6 +149,6 @@ class EngineWorkshop
 		}
 
 		// render to view
-		return view($layout, ['render' => $bladeone, 'meta' => $get_meta_data]);
+		return view($layout, ['render' => $engine, 'meta' => $get_meta_data]);
 	}
 }

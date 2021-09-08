@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace CI4\FrontEnd\Libraries;
 
@@ -26,11 +26,60 @@ namespace CI4\FrontEnd\Libraries;
  * SOFTWARE.
  */
 
-use eftec\bladeone\BladeOne as BladeOneCore;
-use CI4\FrontEnd\Trait\BladeOneTrait;
+use Config\Services;
 
-class BladeOne extends BladeOneCore
+class ViewLocator
 {
-	// use trait, keep the origin version
-	use BladeOneTrait;
+	/**
+	 * Check if it's a file, and return the
+	 * folder name
+	 * 
+	 * @param  string $source
+	 * @return string|null
+	 */
+	protected static function getRealPath(string $source)
+	{
+		$realfile = realpath($source);
+
+		if (is_file($realfile))
+		{
+			return dirname($realfile) . DIRECTORY_SEPARATOR;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Default Path
+	 * 
+	 * @param string $filename
+	 */
+	protected static function default(string $filename, string $ext)
+	{
+		return self::getRealPath(APPPATH . 'Views/' . $filename . $ext);
+	}
+
+	/**
+	 * Namespace
+	 * 
+	 * @param string namespace
+	 */
+	protected static function namespace(string $namespace, string $ext)
+	{
+		return self::getRealPath(Services::locator()->locateFile($namespace, 'Views', substr($ext, 1)));
+	}
+
+	/**
+	 * try
+	 * 
+	 * @param string $value
+	 * @param mix    $returnType null|bool|string
+	 * @param string $ext
+	 */
+	public static function try(string $value, $returnType = null, string $ext = null)
+	{
+		return self::default($value, $ext) ?? self::namespace($value, $ext) ?? $returnType;
+	}
 }
