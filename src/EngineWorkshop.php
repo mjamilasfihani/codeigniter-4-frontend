@@ -139,7 +139,7 @@ class EngineWorkshop
 
 		// decide the render file
 		// create your own layout based on the origin.
-		if (is_file(APPPATH . 'Views/layout/render.php'))
+		if (is_file(APPPATH . 'Views/layouts/render.php'))
 		{
 			$layout = 'layouts/render';
 		}
