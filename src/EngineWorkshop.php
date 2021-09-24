@@ -141,11 +141,11 @@ class EngineWorkshop
 		// create your own layout based on the origin.
 		if (is_file(APPPATH . 'Views/layout/render.php'))
 		{
-			$layout = 'layout/render';
+			$layout = 'layouts/render';
 		}
 		else
 		{
-			$layout = '\CI4\FrontEnd\Views\layout\render';
+			$layout = '\CI4\FrontEnd\Views\layouts\render';
 		}
 
 		// render to view
